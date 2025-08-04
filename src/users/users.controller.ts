@@ -1,9 +1,38 @@
-import { Body, Controller , Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Param,
+  Query,
+  Delete,
+  ParseEnumPipe,
+} from '@nestjs/common';
 import { createUserDto } from './dtos/create-user.dto';
+import { updateUserDto } from './dtos/update-user.dto';
+import { UsersService } from './users.service';
 @Controller('auth')
 export class UsersController {
-@Post("/signup")
-createUser(@Body() body:createUserDto){
-console.log(body)
-}
+  constructor(private usersService: UsersService) {}
+  @Post('/signup')
+  createUser(@Body() body: createUserDto) {
+    this.usersService.create(body.email, body.password);
+  }
+  @Get('/:id')
+  findUser(@Param('id') id: string) {
+    return this.usersService.findOne(parseInt(id));
+  }
+  @Get()
+  findAllUsers(@Query('email') email: string) {
+    return this.usersService.find(email);
+  }
+  @Delete('/:id')
+  removeUser(@Param('id') id: string) {
+    return this.usersService.remove(parseInt(id));
+  }
+  @Patch('/:id')
+  updateUser(@Param('id') id: string, @Body() body: updateUserDto) {
+    return this.usersService.update(parseInt(id),body);
+  }
 }
