@@ -10,10 +10,12 @@ import {
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
   email: string;
   @Column()
   password: string;
+
   @AfterInsert()
   logInsert() {
     console.log('new user inserted', this.id);
@@ -23,7 +25,7 @@ export class User {
     console.log('user updated', this.id);
   }
   @AfterRemove()
-  logRemove(){
-    console.log("Removed user with id" ,this.id)
+  logRemove() {
+    console.log('Removed user with id', this.id);
   }
 }
