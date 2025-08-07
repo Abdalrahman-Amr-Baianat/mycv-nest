@@ -12,6 +12,9 @@ export class UsersService {
     return this.repo.save(user);
   }
   findOne(id: number) {
+    if (id === null || typeof id !== 'number' || isNaN(id)) {
+      return null;
+    }
     return this.repo.findOneBy({ id });
   }
   find(email: string) {
