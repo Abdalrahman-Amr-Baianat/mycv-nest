@@ -2,8 +2,6 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { create } from 'domain';
-import { emitWarning } from 'process';
 @Injectable()
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
@@ -15,7 +13,11 @@ export class UsersService {
     if (id === null || typeof id !== 'number' || isNaN(id)) {
       return null;
     }
-    return this.repo.findOneBy({ id });
+    return this.repo.findOne({
+      where: {
+        id,
+      },
+    });
   }
   find(email: string) {
     return this.repo.findBy({ email });
