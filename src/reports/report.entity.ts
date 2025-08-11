@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { User } from 'src/users/user.entity';
 @Entity()
 export class Report {
   @PrimaryGeneratedColumn()
@@ -9,6 +9,9 @@ export class Report {
 
   @Column()
   make: string;
+
+  @Column({ default: false })
+  approved: boolean;
 
   @Column()
   model: string;
@@ -24,4 +27,11 @@ export class Report {
 
   @Column()
   mileage: number;
+
+  @Column()
+  userId: string;
+
+  @ManyToOne(() => User, (user) => user.reports)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }
