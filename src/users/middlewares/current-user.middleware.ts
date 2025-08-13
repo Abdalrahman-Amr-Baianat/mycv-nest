@@ -2,16 +2,23 @@ import { Injectable, NestMiddleware, NotFoundException } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 
 import { UsersService } from '../users.service';
-@Injectable()
+import { AppRequest } from 'src/types/app-request.type';
+@Injectable() 
 export class CurrentUserMiddleware implements NestMiddleware {
   constructor(private readonly usersService: UsersService) {}
-  async use(req: any, res: any, next: NextFunction) {
+  async use(req: AppRequest, res: any, next: NextFunction) {
+
+
     const { userId } = req.session || {};
-    if (userId) {
+    
+    if (!userId) {
+      throw new NotFoundException('No user id provided ');
+    } else {
       const user = await this.usersService.findOne(userId);
-      //@ts-ignore
       req.currentUser = user;
-    }throw new NotFoundException("No User found")
+
+    }
+
     next();
   }
 }

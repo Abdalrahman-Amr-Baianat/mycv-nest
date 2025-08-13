@@ -16,7 +16,6 @@ export class ReportsController {
   @Post()
   @Serialize(ReportDto)
   createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
-    console.log(user,"<<")
     return this.reportsService.create(body, user);
   }
   @UseGuards(AdminGuard)

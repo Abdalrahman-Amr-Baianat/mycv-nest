@@ -2,7 +2,6 @@ import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 't
 import { User } from 'src/users/user.entity';
 @Entity()
 export class Report {
-  @PrimaryGeneratedColumn()
   id: number;
   @Column()
   price: number;
